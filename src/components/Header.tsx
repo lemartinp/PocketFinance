@@ -1,4 +1,5 @@
 import { TbLeaf } from 'react-icons/tb'
+import { NavLink } from 'react-router-dom';
 
 function Header() {
     return (
@@ -14,8 +15,31 @@ function Header() {
         <div className='flex items-center gap-6'>
             <nav className="flex items-center gap-6 text-sm font-medium">
 
-                <span className='ext-emerald-400 font-semibold'>Dashboard</span>
-                <span className='text-gray-400 hover:text-gray-200'>Transacciones</span>
+                <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                        `transition-colors ${
+                            isActive
+                            ? 'text-emerald-400 font-semibold'
+                            : 'text-gray-400 hover:text-gray-200'
+                        }`
+                    }
+                >
+                    Dashboard
+                </NavLink>
+                
+                <NavLink
+                    to="/transactions"
+                    className={({ isActive }) =>
+                        `transition-colors ${
+                            isActive
+                            ? 'text-emerald-400 font-semibold'
+                            : 'text-gray-400 hover:text-gray-200'
+                        }`
+                    }
+                >
+                    Transacciones
+                </NavLink>
                 <span className='text-gray-400 hover:text-gray-200'>Perfil</span>
             
             </nav>

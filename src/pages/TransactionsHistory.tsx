@@ -1,58 +1,21 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { type RootState } from "../store/store"; // Ajusta esta ruta a tu store
+import { deleteTransaction } from "../store/financeSlice";
 import Header from "../components/Header";
 import { FaTrash } from "react-icons/fa";
 
 
 function TransactionHistory () {
 
+    const dispatch = useDispatch();
+
+    // Obtenemos las transacciones del estado global de Redux
+    const transactions = useSelector((state: RootState) => state.finance.transactions);
+
     // Estados locales para los filtros
     const [filterType, setFilterType] = useState("Todos");
     const [filterCategory, setFilterCategory] = useState("Todas");
-
-    // Datos mock iniciales basados en el PDF
-    // Más adelante esto vendrá directamente desde el financeSlice de Redux
-    const [transactions, setTransactions] = useState([
-        {
-            id: "1",
-            date: "15/07/2026",
-            description: "Pago Nómina",
-            category: "Salario",
-            type: "Ingreso",
-            amount: 3000000,
-        },
-        {
-            id: "2",
-            date: "14/07/2026",
-            description: "Mercar en Éxito",
-            category: "Hogar",
-            type: "Gasto",
-            amount: 450000,
-        },
-        {
-            id: "3",
-            date: "12/07/2026",
-            description: "Recibo de Luz",
-            category: "Hogar",
-            type: "Gasto",
-            amount: 120000,
-        },
-        {
-            id: "4",
-            date: "11/07/2026",
-            description: "Transporte",
-            category: "Transporte",
-            type: "Ingreso",
-            amount: 50000,
-        },
-        {
-            id: "5",
-            date: "10/07/2026",
-            description: "Gimnasio",
-            category: "Hogar",
-            type: "Gasto",
-            amount: 100000,
-        },
-    ]);
 
     // Función para filtrar los datos en tiempo real
     const filteredTransactions = transactions.filter((item) => {
@@ -64,13 +27,8 @@ function TransactionHistory () {
     });
 
     const handleDelete = (id: string) => {
-        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar esta transacción?");
-    
-        if (confirmDelete) {
-        // Filtramos el array conservando solo los elementos cuyo ID sea DIFERENTE al que queremos borrar
-        setTransactions((prevTransactions) =>
-            prevTransactions.filter((item) => item.id !== id)
-        );
+        if (window.confirm("¿Estás seguro de que deseas eliminar esta transacción?")) {
+            dispatch(deleteTransaction(id));
         }
     };
 

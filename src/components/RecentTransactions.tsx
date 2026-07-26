@@ -1,25 +1,15 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiBell } from 'react-icons/fi';
-
-// Tipo temporal para simular la estructura de los datos
-interface Transaction {
-  id: string;
-  description: string;
-  amount: number;
-  type: 'ingreso' | 'gasto';
-}
+import { useSelector } from 'react-redux';
+import { type RootState } from '../store/store'; // Ajusta la ruta a tu store
 
 const RecentTransactions: React.FC = () => {
   // Datos de prueba (mock) basados en la imagen del PDF
   // Más adelante estos datos vendrán directamente del financeSlice de Redux con un .slice(0, 5)
-  const dummyTransactions: Transaction[] = [
-    { id: '1', description: 'Pago Nómina', amount: 3000000, type: 'ingreso' },
-    { id: '2', description: 'Supermercado', amount: 450000, type: 'gasto' },
-    { id: '3', description: 'Recibo de Luz', amount: 120000, type: 'gasto' },
-    { id: '4', description: 'Transporte', amount: 50000, type: 'gasto' },
-    { id: '5', description: 'Gimnasio', amount: 100000, type: 'gasto' },
-  ];
+  const transactions = useSelector((state: RootState) => state.finance.transactions)
+
+  const recentTransactions = transactions.slice(0, 5);
 
   return (
     <div className="bg-[#131d21] border border-gray-800 rounded-2xl p-6 shadow-lg w-full flex flex-col justify-between">
@@ -32,7 +22,7 @@ const RecentTransactions: React.FC = () => {
 
         {/* Lista de Movimientos */}
         <div className="space-y-4">
-          {dummyTransactions.map((item) => (
+          {recentTransactions.map((item) => (
             <div
               key={item.id}
               className="flex items-center justify-between text-sm py-1 border-b border-gray-800/40 last:border-0"
@@ -46,10 +36,10 @@ const RecentTransactions: React.FC = () => {
               {/* Monto coloreado según tipo */}
               <span
                 className={`font-semibold tracking-wide ${
-                  item.type === 'ingreso' ? 'text-emerald-400' : 'text-red-400'
+                  item.type === 'Ingreso' ? 'text-emerald-400' : 'text-red-400'
                 }`}
               >
-                {item.type === 'ingreso' ? '+' : '-'}$ {item.amount.toLocaleString('es-CO')}
+                {item.type === 'Ingreso' ? '+' : '-'}$ {item.amount.toLocaleString('es-CO')}
               </span>
             </div>
           ))}
@@ -58,15 +48,12 @@ const RecentTransactions: React.FC = () => {
 
       {/* Enlace al Historial Completo */}
       <div className="mt-8 text-center">
-        Ver todo el historial
-        {/*
         <Link
           to="/transactions"
           className="text-cyan-400 hover:text-cyan-300 text-sm font-medium hover:underline transition-all"
         >
           Ver todo el historial
         </Link>
-        */}
       </div>
     </div>
   );
