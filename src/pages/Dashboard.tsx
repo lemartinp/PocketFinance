@@ -10,7 +10,7 @@ function Dashboard () {
             {/*title*/}
 
             <h1 className='text-3xl font-bold text-white text-center sm:text-left'>
-                ¡Hola Diluet!
+                ¡Hola Diluetto!
             </h1>
 
             {/*Summary*/}
